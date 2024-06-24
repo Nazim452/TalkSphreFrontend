@@ -21,6 +21,7 @@ import { DoughnutChart, LineChart } from "../../components/specific/Charts";
 import { matBlack } from "../../constants/color";
 import { server } from "../../constants/config";
 import { useErrors } from "../../hooks/hook";
+import { CurveButton } from "../../components/styles/StyledComponents";
 
 const Dashboard = () => {
   const { loading, data, error } = useFetchData(
@@ -45,11 +46,11 @@ const Dashboard = () => {
       <Stack direction={"row"} alignItems={"center"} spacing={"1rem"}>
         <AdminPanelSettingsIcon sx={{ fontSize: "3rem" }} />
 
-        <Typography  variant="h3">Admin Panel</Typography>
+        <Typography  variant="h5">Admin Panel</Typography>
 
         {/* <SearchField placeholder="Search..." /> */}
 
-        {/* <CurveButton>Search</CurveButton> */}
+        <CurveButton>Founder of TalkSphere - Mr  Nazim</CurveButton>
         <Box flexGrow={1} />
         <Typography
           display={{
