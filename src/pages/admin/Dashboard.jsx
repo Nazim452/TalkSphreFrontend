@@ -18,10 +18,6 @@ import moment from "moment";
 import React from "react";
 import AdminLayout from "../../components/layout/AdminLayout";
 import { DoughnutChart, LineChart } from "../../components/specific/Charts";
-import {
-  CurveButton,
-  SearchField,
-} from "../../components/styles/StyledComponents";
 import { matBlack } from "../../constants/color";
 import { server } from "../../constants/config";
 import { useErrors } from "../../hooks/hook";
@@ -49,9 +45,11 @@ const Dashboard = () => {
       <Stack direction={"row"} alignItems={"center"} spacing={"1rem"}>
         <AdminPanelSettingsIcon sx={{ fontSize: "3rem" }} />
 
-        <SearchField placeholder="Search..." />
+        <Typography  variant="h3">Admin Panel</Typography>
 
-        <CurveButton>Search</CurveButton>
+        {/* <SearchField placeholder="Search..." /> */}
+
+        {/* <CurveButton>Search</CurveButton> */}
         <Box flexGrow={1} />
         <Typography
           display={{
@@ -95,6 +93,12 @@ const Dashboard = () => {
   );
 
   return (
+
+    <>
+
+
+    
+
     <AdminLayout>
       {loading ? (
         <Skeleton height={"100vh"} />
@@ -171,6 +175,10 @@ const Dashboard = () => {
         </Container>
       )}
     </AdminLayout>
+    
+    
+    </>
+   
   );
 };
 

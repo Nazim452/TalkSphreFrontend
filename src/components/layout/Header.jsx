@@ -17,6 +17,8 @@ import {
   Group as GroupIcon,
   Logout as LogoutIcon,
   Notifications as NotificationsIcon,
+  Dashboard as DashboardIcon,
+  ForumOutlined as ForumOutlinedIcon,
 } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -35,7 +37,6 @@ import { resetNotificationCount } from "../../redux/reducers/chat";
 const SearchDialog = lazy(() => import("../specific/Search"));
 const NotifcationDialog = lazy(() => import("../specific/Notifications"));
 const NewGroupDialog = lazy(() => import("../specific/NewGroup"));
-
 const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -57,6 +58,11 @@ const Header = () => {
     dispatch(setIsNotification(true));
     dispatch(resetNotificationCount());
   };
+
+  const DashboardHandler = () => {
+    navigate("/admin/dashboard")
+  }
+
 
   const navigateToGroup = () => navigate("/groups");
 
@@ -86,10 +92,19 @@ const Header = () => {
               variant="h6"
               sx={{
                 display: { xs: "none", sm: "block" },
+                cursor: "pointer"
               }}
+              onClick={() => navigate("/")}
             >
-              Chattu
+              TalkSphere
             </Typography>
+
+
+            <ForumOutlinedIcon sx={{
+              paddingLeft: "5px",
+              fontSize: "35px",
+              display: { xs: "none", sm: "block" },
+            }} />
 
             <Box
               sx={{
@@ -136,6 +151,9 @@ const Header = () => {
                 icon={<LogoutIcon />}
                 onClick={logoutHandler}
               />
+
+              <IconBtn title={"Dashboard"} icon={<DashboardIcon />} onClick={DashboardHandler} />
+
             </Box>
           </Toolbar>
         </AppBar>

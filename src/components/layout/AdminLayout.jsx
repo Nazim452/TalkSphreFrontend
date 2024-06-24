@@ -21,6 +21,9 @@ import { Link as LinkComponent, Navigate, useLocation } from "react-router-dom";
 import { grayColor, matBlack } from "../../constants/color";
 import { useDispatch, useSelector } from "react-redux";
 import { adminLogout } from "../../redux/thunks/admin";
+import AppLayout from "./AppLayout";
+import Header from "./Header";
+
 
 const Link = styled(LinkComponent)`
   text-decoration: none;
@@ -64,9 +67,14 @@ const Sidebar = ({ w = "100%" }) => {
   };
 
   return (
+
+    <>
+
+    <AppLayout/>
+  
     <Stack width={w} direction={"column"} p={"3rem"} spacing={"3rem"}>
       <Typography variant="h5" textTransform={"uppercase"}>
-        Chattu
+        TalkSphere
       </Typography>
 
       <Stack spacing={"1rem"}>
@@ -99,6 +107,9 @@ const Sidebar = ({ w = "100%" }) => {
         </Link>
       </Stack>
     </Stack>
+    
+    </>
+  
   );
 };
 
@@ -114,6 +125,11 @@ const AdminLayout = ({ children }) => {
   if (!isAdmin) return <Navigate to="/admin" />;
 
   return (
+
+    <>
+    
+    <Header/>
+
     <Grid container minHeight={"100vh"}>
       <Box
         sx={{
@@ -124,7 +140,12 @@ const AdminLayout = ({ children }) => {
         }}
       >
         <IconButton onClick={handleMobile}>
-          {isMobile ? <CloseIcon /> : <MenuIcon />}
+          {isMobile ? <CloseIcon /> : <MenuIcon sx={{
+            paddingTop:"15px",
+            paddingLeft:"15px",
+            color:"gray",
+            fontSize:"50px"
+          }}/>}
         </IconButton>
       </Box>
 
@@ -145,9 +166,13 @@ const AdminLayout = ({ children }) => {
       </Grid>
 
       <Drawer open={isMobile} onClose={handleClose}>
-        <Sidebar w="50vw" />
+        <Sidebar w="80vw" />
       </Drawer>
-    </Grid>
+    </Grid> 
+    
+    
+    </>
+  
   );
 };
 

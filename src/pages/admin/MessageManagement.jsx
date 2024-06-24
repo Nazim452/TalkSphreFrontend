@@ -14,7 +14,7 @@ const columns = [
     field: "id",
     headerName: "ID",
     headerClassName: "table-header",
-    width: 200,
+    width: 230,
   },
   {
     field: "attachments",
@@ -126,7 +126,7 @@ const MessageManagement = () => {
           heading={"All Messages"}
           columns={columns}
           rows={rows}
-          rowHeight={200}
+          rowHeight={120}
         />
       )}
     </AdminLayout>

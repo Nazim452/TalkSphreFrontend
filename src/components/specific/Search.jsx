@@ -70,7 +70,7 @@ const Search = () => {
           }}
         />
 
-        <List>
+        <List >
           {users.map((i) => (
             <UserItem
               user={i}

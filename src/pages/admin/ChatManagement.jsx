@@ -1,18 +1,21 @@
-import { useFetchData } from "6pp";
-import { Avatar, Skeleton, Stack } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import AdminLayout from "../../components/layout/AdminLayout";
+import React, { useEffect, useState } from 'react'
+import AdminLayout from '../../components/layout/AdminLayout'
+import Table from '../../components/shared/Table'
+import { Avatar, Skeleton, Stack } from '@mui/material';
+
 import AvatarCard from "../../components/shared/AvatarCard";
-import Table from "../../components/shared/Table";
-import { server } from "../../constants/config";
+import { useFetchData } from "6pp";
+import { server } from '../../constants/config';
 import { useErrors } from "../../hooks/hook";
+
+
 
 const columns = [
   {
     field: "id",
     headerName: "ID",
     headerClassName: "table-header",
-    width: 200,
+    width: 240,
   },
   {
     field: "avatar",
@@ -69,8 +72,10 @@ const columns = [
     ),
   },
 ];
-
 const ChatManagement = () => {
+
+
+
   const { loading, data, error } = useFetchData(
     `${server}/api/v1/admin/chats`,
     "dashboard-chats"
@@ -91,26 +96,30 @@ const ChatManagement = () => {
         data.chats.map((i) => ({
           ...i,
           id: i._id,
-          avatar: i.avatar.map((i) => (i, 50)),
-          members: i.members.map((i) => (i.avatar, 50)),
+          avatar: i.avatar.map((i) =>i ),
+          members: i.members.map((i) =>i.avatar ),
           creator: {
             name: i.creator.name,
-            avatar: (i.creator.avatar, 50),
+            avatar:i.creator.avatar ,
           },
         }))
       );
     }
   }, [data]);
 
+  // transformImage(i.avatar, 50)
+  // transformImage(i, 50)
+  // transformImage(i.creator.avatar, 50)
   return (
-    <AdminLayout  >
+    <AdminLayout >
       {loading ? (
         <Skeleton height={"100vh"} />
       ) : (
-        <Table heading={"All Chats"} columns={columns} rows={rows} />
+        <Table heading={"All Chats"} columns={columns} rows={rows}    />
       )}
     </AdminLayout>
-  );
-};
+  )
+}
 
-export default ChatManagement;
+
+export default ChatManagement

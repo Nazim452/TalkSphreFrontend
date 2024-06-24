@@ -5,7 +5,6 @@ import AdminLayout from "../../components/layout/AdminLayout";
 import Table from "../../components/shared/Table";
 import { server } from "../../constants/config";
 import { useErrors } from "../../hooks/hook";
-import { transformImage } from "../../lib/features";
 
 const columns = [
   {
@@ -70,7 +69,7 @@ const UserManagement = () => {
         data.users.map((i) => ({
           ...i,
           id: i._id,
-          avatar: transformImage(i.avatar, 50),
+          avatar: (i.avatar),
         }))
       );
     }
