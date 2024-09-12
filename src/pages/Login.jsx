@@ -10,6 +10,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import axios from "axios";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
@@ -19,21 +20,38 @@ import { bgGradient } from "../constants/color";
 import { server } from "../constants/config";
 import { userExists } from "../redux/reducers/auth";
 import { usernameValidator } from "../utils/validators";
+import { useNavigate, Link } from "react-router-dom";
+import PasswordStrengthMeter from "../components/auth/PasswordStrengthMeter";
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 
 const Login = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
-
+  const [showLoginPassword, setShowLoginPassword] = useState(false);
+  const [showSignupPassword, setShowSignupPassword] = useState(false);
   const toggleLogin = () => setIsLogin((prev) => !prev);
+  const [loginvisible, setloginVisible] = useState(true);
+
+  
 
   const name = useInputValidation("");
   const bio = useInputValidation("");
   const username = useInputValidation("", usernameValidator);
   const password = useInputValidation("");
+  const email = useInputValidation("");
 
   const avatar = useFileHandler("single");
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleToggle = (field) => {
+    if (field == 'loginpassword') setShowLoginPassword((prev) => !prev);
+
+    if (field == 'signuppassword') setShowSignupPassword((prev) => !prev);
+
+
+  }
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -73,7 +91,10 @@ const Login = () => {
   const handleSignUp = async (e) => {
     e.preventDefault();
 
-    const toastId = toast.loading("Signing Up...");
+    const toastId = toast.loading("Signing In...");
+
+
+
     setIsLoading(true);
 
     const formData = new FormData();
@@ -82,6 +103,7 @@ const Login = () => {
     formData.append("bio", bio.value);
     formData.append("username", username.value);
     formData.append("password", password.value);
+    formData.append("email", email.value);
 
     const config = {
       withCredentials: true,
@@ -96,11 +118,14 @@ const Login = () => {
         formData,
         config
       );
-
-      dispatch(userExists(data.user));
-      toast.success(data.message, {
+      toast.success("OTP sent to your Email - Verify Your Email", {
         id: toastId,
       });
+
+
+      navigate("/verify-email")
+
+
     } catch (error) {
       toast.error(error?.response?.data?.message || "Something Went Wrong", {
         id: toastId,
@@ -120,7 +145,7 @@ const Login = () => {
         component={"main"}
         maxWidth="xs"
         sx={{
-          height: "100vh",
+          height: "160vh",
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
@@ -142,6 +167,7 @@ const Login = () => {
                 style={{
                   width: "100%",
                   marginTop: "1rem",
+                  overflowY: "hidden"
                 }}
                 onSubmit={handleLogin}
               >
@@ -155,7 +181,9 @@ const Login = () => {
                   onChange={username.changeHandler}
                 />
 
-                <TextField
+                {/* <div >
+              <TextField
+            
                   required
                   fullWidth
                   label="Password"
@@ -165,7 +193,36 @@ const Login = () => {
                   value={password.value}
                   onChange={password.changeHandler}
                 />
+                <div><VisibilityOffIcon/></div>
 
+
+              
+
+              </div> */}
+
+
+
+                <div class="relative">
+                  <TextField
+
+                    label="Password"
+                    required
+                    fullWidth
+                   
+                    type={showLoginPassword ? "text" : "password"}
+
+                    value={password.value}
+                    onChange={password.changeHandler}
+                  />
+                  <div
+
+                    onClick={() => handleToggle("loginpassword")}
+                    class="absolute inset-y-0 right-0 flex items-center pr-3">
+                    {showLoginPassword ? <VisibilityOffIcon />
+                      : <RemoveRedEyeIcon />
+                    }
+                  </div>
+                </div>
                 <Button
                   sx={{
                     marginTop: "1rem",
@@ -191,7 +248,15 @@ const Login = () => {
                 >
                   Sign Up Instead
                 </Button>
+                <Button
+                  fullWidth
+                  variant="text"
+                  onClick={() => navigate("/forgot-password")}>
+                  Forgot Password
+                </Button>
               </form>
+
+
             </>
           ) : (
             <>
@@ -199,16 +264,18 @@ const Login = () => {
               <form
                 style={{
                   width: "100%",
-                  marginTop: "1rem",
+                  marginTop: "5rem",
+                  height: ""
                 }}
                 onSubmit={handleSignUp}
               >
-                <Stack position={"relative"} width={"10rem"} margin={"auto"}>
+                <Stack position={"relative"} width={"10rem"} margin={"auto"} >
                   <Avatar
                     sx={{
                       width: "10rem",
                       height: "10rem",
                       objectFit: "contain",
+                      marginTop: "-4rem"
                     }}
                     src={avatar.preview}
                   />
@@ -270,6 +337,15 @@ const Login = () => {
                 <TextField
                   required
                   fullWidth
+                  label="Email"
+                  margin="normal"
+                  variant="outlined"
+                  value={email.value}
+                  onChange={email.changeHandler}
+                />
+                <TextField
+                  required
+                  fullWidth
                   label="Username"
                   margin="normal"
                   variant="outlined"
@@ -283,7 +359,7 @@ const Login = () => {
                   </Typography>
                 )}
 
-                <TextField
+                {/* <TextField
                   required
                   fullWidth
                   label="Password"
@@ -293,6 +369,37 @@ const Login = () => {
                   value={password.value}
                   onChange={password.changeHandler}
                 />
+                 */}
+
+
+
+ 
+                <div class="relative">
+                  <TextField
+
+                    label="Password"
+                    required
+                    fullWidth
+                   
+                    type={showSignupPassword ? "text" : "password"}
+
+                    value={password.value}
+                    onChange={password.changeHandler}
+                  />
+                  <div
+
+                    onClick={() => handleToggle("signuppassword")}
+                    class="absolute inset-y-0 right-0 flex items-center pr-3">
+                    {showSignupPassword ? <VisibilityOffIcon />
+                      : <RemoveRedEyeIcon />
+                    }
+                  </div>
+                </div>
+
+
+
+
+                <PasswordStrengthMeter password={password.value} />
 
                 <Button
                   sx={{
@@ -319,7 +426,10 @@ const Login = () => {
                 >
                   Login Instead
                 </Button>
+
+
               </form>
+
             </>
           )}
         </Paper>

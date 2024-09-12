@@ -22,6 +22,15 @@ const ChatManagement = lazy(() => import("./pages/admin/ChatManagement"));
 const MessagesManagement = lazy(() =>
   import("./pages/admin/MessageManagement")
 );
+const EmailVerificationPage = lazy(() =>
+  import("./components/auth/EmailVerificationPage")
+);
+const ForgotPasswordPage = lazy(() =>
+  import("./components/auth/ForgotPasswordPage")
+);
+const ResetPasswordpage = lazy(() =>
+  import("./components/auth/ResetPasswordPage")
+);
 
 const App = () => {
   const { user, loader } = useSelector((state) => state.auth);
@@ -59,6 +68,30 @@ const App = () => {
               <ProtectRoute user={!user} redirect="/">
                 <Login />
               </ProtectRoute>
+            }
+          />
+          <Route
+            path="/verify-email"
+            element={
+              <ProtectRoute user={!user} redirect="/">
+                <EmailVerificationPage />
+               </ProtectRoute>
+            }
+          />
+          <Route
+            path="/forgot-password"
+            element={
+              <ProtectRoute user={!user} redirect="/">
+                <ForgotPasswordPage />
+               </ProtectRoute>
+            }
+          />
+          <Route
+            path='/reset-password/:token'
+            element={
+              <ProtectRoute user={!user} redirect="/">
+                <ResetPasswordpage />
+               </ProtectRoute>
             }
           />
 
